@@ -1,0 +1,46 @@
+table DimCustomer
+	lineageTag: 3509b3ff-27fe-44f8-b1fd-886079bb7e29
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 110c7227-6094-4c68-a844-2a2a4d916acc
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: dc463546-28ed-4823-b45e-8c23dd0e026f
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 2884a591-b33c-4b28-996c-e3b86763a54f
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+				    Orders_Sheet = Origen{[Item="Orders",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Postal Code", Int64.Type}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Market", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Discount", type number}, {"Profit", type number}, {"Shipping Cost", type number}, {"Order Priority", type text}}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"Customer ID", "Customer Name", "Segment"}),
+				    #"Texto recortado" = Table.TransformColumns(#"Otras columnas quitadas",{{"Customer ID", Text.Trim, type text}, {"Customer Name", Text.Trim, type text}, {"Segment", Text.Trim, type text}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"Customer ID", Text.Clean, type text}, {"Customer Name", Text.Clean, type text}, {"Segment", Text.Clean, type text}}),
+				    #"Duplicados quitados" = Table.Distinct(#"Texto limpio", {"Customer ID"})
+				in
+				    #"Duplicados quitados"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

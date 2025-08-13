@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Avance trabajo"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2e5d09e2-e059-4d7e-bbe0-105cf19f4b09"
+  }
+}

@@ -1,0 +1,43 @@
+relationship AutoDetected_13b52b35-5e6f-4478-9166-15700b271ca0
+	fromColumn: HechosOrders.'Customer ID'
+	toColumn: DimCustomer.'Customer ID'
+
+relationship AutoDetected_c92ca5b4-2365-44cb-be55-09c1eab89f01
+	fromColumn: HechosOrders.'Product ID'
+	toColumn: DimProduct.'Product ID'
+
+relationship AutoDetected_7deffaca-37cd-4a45-bada-c9133385dc4c
+	fromColumn: HechosOrders.IDGeography
+	toColumn: DimGeography.IDGeography
+
+relationship AutoDetected_e7994a0b-dfbc-492b-b05d-cdbe8f5b4037
+	fromColumn: HechosOrders.'Ship Mode'
+	toColumn: DimShip.'Ship Mode'
+
+relationship b1389acc-75ca-3d91-da64-f1846be55f98
+	fromColumn: HechosOrders.'Order ID'
+	toColumn: DimOrder.'Order ID'
+
+relationship 2173d284-b255-8ce8-4fb3-2c18cb96edbb
+	fromColumn: HechosReturns.'Order ID'
+	toColumn: DimOrder.'Order ID'
+
+relationship 7af2d0e1-c99d-dee7-0b66-a6f53470ee7f
+	fromColumn: HechosOrders.'Order Date'
+	toColumn: Calendario.Date
+
+relationship a37813cb-e0bd-2698-f503-ac2c56935382
+	isActive: false
+	fromColumn: HechosOrders.'Ship Date'
+	toColumn: Calendario.Date
+
+relationship 64e21d30-32fb-454d-8890-8d33bc52f626
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendario.Date
+	toColumn: LocalDateTable_815384e8-a4bf-46c3-9c1d-fef00ed2adef.Date
+
+relationship 8f4bbfb3-ac37-4936-a49e-1291162dfc88
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendario.Año
+	toColumn: LocalDateTable_f82d7ccb-7354-487f-aaf7-1429bc5ae7c9.Date
+

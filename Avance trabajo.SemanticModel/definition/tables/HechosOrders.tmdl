@@ -1,0 +1,281 @@
+table HechosOrders
+	lineageTag: ce84c4a3-98ee-4a11-996b-0b9a166fab96
+
+	column 'Order ID'
+		dataType: string
+		lineageTag: 5043c309-6e5d-4be8-adf6-b524f221114a
+		summarizeBy: none
+		sourceColumn: Order ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2489d7b9-82ac-4042-81f1-ed1516cf2f21
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ship Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d17cebf6-a9f5-4719-86f6-3e9a7b0fab2d
+		summarizeBy: none
+		sourceColumn: Ship Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 5b38b068-6bac-4f61-83e0-b4b212f1c7f2
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product ID'
+		dataType: string
+		lineageTag: 66545ef3-4878-4028-bc6e-882d00df09c0
+		summarizeBy: none
+		sourceColumn: Product ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sales
+		dataType: double
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: 5a5eda9b-2d9b-493e-b0c1-05cc6fd42a2a
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dfad709-1813-47fc-b5cf-e8aea6fbc848
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Discount
+		dataType: double
+		lineageTag: 28ebc2c4-d206-4df2-a660-3f308023d48a
+		summarizeBy: sum
+		sourceColumn: Discount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Profit
+		dataType: double
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: dd6c7c64-7727-4ec1-8204-6eb23b3dbbf7
+		summarizeBy: sum
+		sourceColumn: Profit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shipping Cost'
+		dataType: double
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		lineageTag: 310032aa-3075-43f5-9426-16cf9275f27b
+		summarizeBy: sum
+		sourceColumn: Shipping Cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: f5a224dd-1f73-4e0d-8852-6c480a6521e9
+		summarizeBy: count
+		sourceColumn: Row ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Mode'
+		dataType: string
+		lineageTag: 7c21e604-de0c-45bf-a880-3c6885648886
+		summarizeBy: none
+		sourceColumn: Ship Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: ee71e904-c779-4dda-837c-4c56b4622713
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: f90ee4c2-cb04-4447-bc74-2ad3c8075216
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Postal Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: dd2ea50e-2db2-47e7-9a6f-35f0ab102f7b
+		summarizeBy: count
+		sourceColumn: Postal Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 763f9c24-4dbd-493e-a24e-78a829358e5d
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 8120bd05-93d3-48f2-9cb7-abfaf4e22af5
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 1ce44157-f227-499f-9caf-745169ec92e6
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 08afbf47-6229-40ee-a5a4-7712cf6b83b4
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 6bbd0959-bf18-4e48-9854-408a919f187a
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 32982e73-c621-4345-b984-cbdbaae297bb
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sub-Category
+		dataType: string
+		lineageTag: 6ca301f7-c2f7-41c2-b66e-258760d37306
+		summarizeBy: none
+		sourceColumn: Sub-Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: e78368e6-37ec-4bd0-997a-5818de143acb
+		summarizeBy: none
+		sourceColumn: Product Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Priority'
+		dataType: string
+		lineageTag: 5caf5544-ea54-4378-a532-1c89bdc2b0c3
+		summarizeBy: none
+		sourceColumn: Order Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDShipMode
+		dataType: string
+		lineageTag: 846d085e-8de2-439e-9198-e1308f0331fe
+		summarizeBy: none
+		sourceColumn: IDShipMode
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDGeography
+		dataType: string
+		lineageTag: 134f33fd-0395-4ba4-a50d-7bb45a90286c
+		summarizeBy: none
+		sourceColumn: IDGeography
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero rango Descuento' = ```
+			var d = HechosOrders[Discount] RETURN SWITCH  (TRUE(), 
+			d = 0, 1,
+			d > 0 && d <= 0.10, 2,
+			d > 0.10 && d <= 0.20, 3,
+			d > 0.20 && d <= 0.30, 4,
+			d > 0.30 && d <= 0.40, 5,
+			d > 0.40 && d <= 0.50, 6,
+			7)
+			```
+		formatString: 0
+		lineageTag: b202d348-be30-4ca6-8355-31dcd9a10266
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rango de Descuento' = ```
+			SWITCH(HechosOrders[Numero rango Descuento],
+			1, "0%", 
+			2, "0-10%", 
+			3,"10-20%", 
+			4, "20-30%", 
+			5, "30-40%", 
+			 6,"40-50%", 7, ">50%")
+			```
+		lineageTag: fde4f419-3e22-4a35-b99d-2e0f2d15edb7
+		summarizeBy: none
+		sortByColumn: 'Numero rango Descuento'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition HechosOrders = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+				    Orders_Sheet = Origen{[Item="Orders",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Postal Code", Int64.Type}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Market", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Discount", type number}, {"Profit", type number}, {"Shipping Cost", type number}, {"Order Priority", type text}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Tipo cambiado", {"Ship Mode"}, DimShip, {"Ship Mode"}, "DimShip", JoinKind.LeftOuter),
+				    #"Se expandió DimShip" = Table.ExpandTableColumn(#"Consultas combinadas", "DimShip", {"IDShipMode"}, {"DimShip.IDShipMode"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Se expandió DimShip",{{"DimShip.IDShipMode", "IDShipMode"}}),
+				    #"Consultas combinadas1" = Table.NestedJoin(#"Columnas con nombre cambiado", {"City", "State", "Country", "Region", "Market"}, DimGeography, {"City", "State", "Country", "Region", "Market"}, "DimGeography", JoinKind.LeftOuter),
+				    #"Se expandió DimGeography" = Table.ExpandTableColumn(#"Consultas combinadas1", "DimGeography", {"IDGeography"}, {"IDGeography"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Se expandió DimGeography",{{"IDGeography", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Exception
+

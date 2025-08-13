@@ -1,0 +1,2 @@
+
+    EVALUATE ROW("1015",CALCULATE(SUM(HechosOrders[Sales]),Calendario[Año]=2015))

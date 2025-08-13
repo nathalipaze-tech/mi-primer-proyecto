@@ -1,0 +1,45 @@
+table HechosReturns
+	lineageTag: 1b515f10-5222-4f72-8f81-e887a2ea5149
+
+	column Devueltos
+		dataType: string
+		lineageTag: 6c6aa46e-b5c8-46b1-ab37-c3ce75365a45
+		summarizeBy: none
+		sourceColumn: Devueltos
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order ID'
+		dataType: string
+		lineageTag: c09f8260-d061-4fec-8b19-142a84302baf
+		summarizeBy: none
+		sourceColumn: Order ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 390de40f-31ac-448a-8aca-01228fdf1bb9
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition HechosReturns = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+				    Returns_Sheet = Origen{[Item="Returns",Kind="Sheet"]}[Data],
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Returns_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Tipo cambiado", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Returned", type text}, {"Order ID", type text}, {"Region", type text}}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Tipo cambiado1",{"Returned", "Order ID", "Region"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas reordenadas",{{"Returned", "Devueltos"}})
+				in
+				    #"Columnas con nombre cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

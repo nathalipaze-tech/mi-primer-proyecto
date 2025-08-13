@@ -1,0 +1,39 @@
+table DimOrder
+	lineageTag: 7fa4d575-758e-4921-9857-5ff367d0b39a
+
+	column 'Order ID'
+		dataType: string
+		lineageTag: 50498c4a-0d81-4641-a251-61c4730532fb
+		summarizeBy: none
+		sourceColumn: Order ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Priority'
+		dataType: string
+		lineageTag: bd326908-cdfa-4258-9f83-782d2e379e6c
+		summarizeBy: none
+		sourceColumn: Order Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimOrder = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+				    Orders_Sheet = Origen{[Item="Orders",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Postal Code", Int64.Type}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Market", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Discount", type number}, {"Profit", type number}, {"Shipping Cost", type number}, {"Order Priority", type text}}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"Order ID", "Order Priority"}),
+				    #"Texto recortado" = Table.TransformColumns(#"Otras columnas quitadas",{{"Order ID", Text.Trim, type text}, {"Order Priority", Text.Trim, type text}}),
+				    #"Texto recortado1" = Table.TransformColumns(#"Texto recortado",{{"Order ID", Text.Trim, type text}, {"Order Priority", Text.Trim, type text}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Texto recortado1",{{"Order ID", Text.Clean, type text}, {"Order Priority", Text.Clean, type text}}),
+				    #"Duplicados quitados" = Table.Distinct(#"Texto limpio", {"Order ID"})
+				in
+				    #"Duplicados quitados"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,31 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-PE
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Orders","People","HechosReturns","Medidas","DimProduct","DimCustomer","DimGeography","DimShip","HechosOrders","DimOrder"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.145.1105.0 (25.07)+decbc46fce458c5b8d5109d6f32a743f2ac949c8
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table HechosReturns
+ref table Calendario
+ref table Medidas
+ref table DimProduct
+ref table DimCustomer
+ref table DimGeography
+ref table DimShip
+ref table HechosOrders
+ref table DimOrder
+ref table DateTableTemplate_0200e5f3-c5d2-435c-ad97-555601673c7f
+ref table LocalDateTable_815384e8-a4bf-46c3-9c1d-fef00ed2adef
+ref table LocalDateTable_f82d7ccb-7354-487f-aaf7-1429bc5ae7c9
+
+ref cultureInfo es-ES
+

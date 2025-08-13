@@ -1,0 +1,94 @@
+table Calendario
+	lineageTag: 0f1332b8-dc5b-486e-88cf-14a4d917f4b4
+
+	column Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7a43872d-e79d-4db6-9459-5bd64ee5b7ba
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variación
+			isDefault
+			relationship: 64e21d30-32fb-454d-8890-8d33bc52f626
+			defaultHierarchy: LocalDateTable_815384e8-a4bf-46c3-9c1d-fef00ed2adef.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Año
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 61e02ecf-9ede-4808-9fa2-7958ba189d1b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Año]
+
+		variation Variación
+			isDefault
+			relationship: 8f4bbfb3-ac37-4936-a49e-1291162dfc88
+			defaultHierarchy: LocalDateTable_f82d7ccb-7354-487f-aaf7-1429bc5ae7c9.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Numero'
+		dataType: int64
+		formatString: 0
+		lineageTag: 97b0455c-3bfb-4381-8b95-af7fedbef922
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Mes Numero]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: d0877029-3025-48d8-a153-83d5f6f93467
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mes]
+		sortByColumn: 'Mes Numero'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		lineageTag: f88ca215-57ac-4fea-a77b-78a4bf06e2ed
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trimestre]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesAño
+		dataType: string
+		lineageTag: ebb7be40-cd18-4912-8128-7fe6130c14ba
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MesAño]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesAñoNum
+		dataType: string
+		lineageTag: f3535ed4-8487-4874-af53-c920206a9e97
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MesAñoNum]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendario = calculated
+		mode: import
+		source = ```
+				ADDCOLUMNS(
+				    CALENDAR(MIN(HechosOrders[Order Date]),MAX(HechosOrders[Order Date])), 
+				    "Año", YEAR([Date]), 
+				    "Mes Numero", MONTH([Date]), 
+				    "MesAñoNum", YEAR([Date])*100+MONTH([Date]),
+				    "MesAño",FORMAT([Date], "YYYY-MM"),
+				    "Mes", FORMAT([Date], "mmmm"), 
+				    "Trimestre", "Q"&FORMAT([Date], "Q"))
+				```
+
+	annotation PBI_Id = fcdc51cbd80844478ca9af24e366cc30
+

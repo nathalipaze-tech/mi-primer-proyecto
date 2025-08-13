@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Avance trabajo"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a038445f-ba86-45eb-b635-11999a3c0a85"
+  }
+}

@@ -1,0 +1,87 @@
+table DimGeography
+	lineageTag: 59aa39f5-741b-49de-b998-219a15584b92
+
+	column City
+		dataType: string
+		lineageTag: f0f00c7e-7dfa-4211-b709-f8ce5e2226db
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 1a9a84c9-479d-4d9d-b138-69b68a31c42e
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: eda64578-cfce-4c60-b095-18191c07b1fa
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: a661e049-899e-41ec-9971-5df493772de9
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDGeography
+		dataType: string
+		lineageTag: 5a777a8b-cfb5-41b6-b3cc-b71588aed196
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: IDGeography
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: c1b123de-3c12-4f91-b8aa-49cd70bca50d
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimGeography = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+				    Orders_Sheet = Origen{[Item="Orders",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Postal Code", Int64.Type}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Market", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Discount", type number}, {"Profit", type number}, {"Shipping Cost", type number}, {"Order Priority", type text}}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"City", "State", "Country", "Region"}),
+				    #"Texto recortado" = Table.TransformColumns(#"Otras columnas quitadas",{{"City", Text.Trim, type text}, {"State", Text.Trim, type text}, {"Country", Text.Trim, type text}, {"Region", Text.Trim, type text}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"City", Text.Clean, type text}, {"State", Text.Clean, type text}, {"Country", Text.Clean, type text}, {"Region", Text.Clean, type text}}),
+				    #"Duplicados quitados" = Table.Distinct(#"Texto limpio"),
+				    #"Índice agregado" = Table.AddIndexColumn(#"Duplicados quitados", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Índice agregado",{{"Índice", "IDGeography"}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado", {"City", "State", "Country", "Region"}, Orders, {"City", "State", "Country", "Region"}, "Orders", JoinKind.LeftOuter),
+				    #"Se expandió Orders" = Table.ExpandTableColumn(#"Consultas combinadas", "Orders", {"Market"}, {"Orders.Market"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Se expandió Orders",{"IDGeography", "City", "State", "Country", "Region", "Orders.Market"}),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas reordenadas",{{"Orders.Market", "Market"}}),
+				    #"Duplicados quitados1" = Table.Distinct(#"Columnas con nombre cambiado1", {"IDGeography"}),
+				    #"Columnas reordenadas1" = Table.ReorderColumns(#"Duplicados quitados1",{"IDGeography", "Region", "Market", "Country", "State", "City"}),
+				    #"Consultas combinadas1" = Table.NestedJoin(#"Columnas reordenadas1", {"Region", "Market", "Country", "State", "City"}, Orders, {"Market", "Region", "Country", "State", "City"}, "Orders", JoinKind.LeftOuter),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Consultas combinadas1",{"Orders"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas quitadas",{{"IDGeography", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

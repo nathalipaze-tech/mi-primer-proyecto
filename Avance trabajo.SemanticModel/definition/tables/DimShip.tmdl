@@ -1,0 +1,42 @@
+table DimShip
+	lineageTag: 15731762-e9ee-483e-bcff-3e95913b2b53
+
+	column 'Ship Mode'
+		dataType: string
+		lineageTag: c8f31238-2305-4cb0-a94a-22b48623ce45
+		summarizeBy: none
+		sourceColumn: Ship Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDShipMode
+		dataType: string
+		lineageTag: 6c7a1163-c214-49fe-a1dd-3521538c6c2c
+		summarizeBy: none
+		sourceColumn: IDShipMode
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimShip = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+				    Orders_Sheet = Origen{[Item="Orders",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Postal Code", Int64.Type}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Market", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Discount", type number}, {"Profit", type number}, {"Shipping Cost", type number}, {"Order Priority", type text}}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"Ship Mode"}),
+				    #"Texto recortado" = Table.TransformColumns(#"Otras columnas quitadas",{{"Ship Mode", Text.Trim, type text}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"Ship Mode", Text.Clean, type text}}),
+				    #"Duplicados quitados" = Table.Distinct(#"Texto limpio"),
+				    #"Índice agregado" = Table.AddIndexColumn(#"Duplicados quitados", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Índice agregado",{{"Índice", "IDShipMode"}}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas con nombre cambiado",{"IDShipMode", "Ship Mode"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas reordenadas",{{"IDShipMode", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

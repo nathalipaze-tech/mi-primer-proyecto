@@ -1,0 +1,364 @@
+table Medidas
+	lineageTag: 6c06fad4-ad58-4fa8-aef8-993ca4bdba2e
+
+	measure 'Ventas Totales' = SUM(HechosOrders[Sales])
+		displayFolder: Ventas
+		lineageTag: 43eafd1d-8069-41b2-acf1-8ed3b89873da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ganancias Totales' = SUM(HechosOrders[Profit])
+		displayFolder: Rentabilidad
+		lineageTag: 69eb9f0b-fdc1-4b84-a511-b887aa64ef92
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cantidad Vendida total' = SUM (HechosOrders[Quantity])
+		formatString: 0
+		displayFolder: Ventas
+		lineageTag: b0e14c28-4091-4c7f-bf97-8b56922556a9
+
+	measure '% Margen' = DIVIDE([Ganancias Totales], [Ventas Totales],0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Rentabilidad
+		lineageTag: 85ef352c-6f3b-4d0c-acf1-dea20f583a1c
+
+	measure 'Pedidos devueltos' = CALCULATE(DISTINCTCOUNT(HechosOrders[Order ID]),TREATAS(values(HechosReturns[Order ID]),HechosOrders[Order ID]))
+		formatString: 0
+		isHidden
+		displayFolder: Pedidos
+		lineageTag: 65f1de8c-fc93-49fb-9808-1007d22fd923
+
+		changedProperty = IsHidden
+
+	measure 'Monto Venta Acumulado Año' =
+			CALCULATE(
+						[Ventas Totales],
+						DATESYTD(Calendario[Date]))
+		displayFolder: Funciones de tiempo
+		lineageTag: 84771305-db92-4177-8635-18e33f4a164d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Monto Venta Mes Anterior' =
+			CALCULATE(
+						[Ventas Totales],
+						PREVIOUSMONTH(Calendario[Date]))
+		displayFolder: Funciones de tiempo
+		lineageTag: 9cc13e6e-8a31-4c4c-9813-278aadd51391
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ventas Año Anterior (Total)' =
+			CALCULATE(
+						[Ventas Totales],
+						PREVIOUSYEAR(Calendario[Date]))
+		displayFolder: Ventas
+		lineageTag: 847fea39-2b98-494e-82a2-128e3c24399a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Pedidos Totales' = DISTINCTCOUNT(HechosOrders[Order ID])
+		formatString: 0
+		displayFolder: Pedidos
+		lineageTag: 4a01df81-1a57-4154-85a4-94d39c270c09
+
+	measure 'Ventas Año Anterior' = CALCULATE([Ventas Totales],SAMEPERIODLASTYEAR(Calendario[Date]))
+		isHidden
+		displayFolder: Ventas
+		lineageTag: 1cd1c37a-e0ce-44ad-892d-a54437d1c0c0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Clientes Unicos' = DISTINCTCOUNT(HechosOrders[Customer ID])
+		formatString: 0
+		displayFolder: Clientes
+		lineageTag: 1dc5b206-3035-494b-8016-0f54b660ea6c
+
+	measure 'Ventas YTD' = CALCULATE([Ventas Totales],DATESYTD(Calendario[Date],"30/06"))
+		displayFolder: Funciones de tiempo
+		lineageTag: 97814af4-0573-4e0f-8a7f-c6dae9c1e3f6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ventas QTD' = CALCULATE([Ventas Totales],DATESQTD(Calendario[Date]))
+		formatString: 0
+		displayFolder: Funciones de tiempo
+		lineageTag: 16e6796c-eaf1-40fe-b481-fd6bfbbdf274
+
+	measure 'Ventas MTD' = CALCULATE([Ventas Totales],DATESMTD(Calendario[Date]))
+		displayFolder: Funciones de tiempo
+		lineageTag: 6a22be62-b281-4c8c-aaea-6ca188dd408a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipping Cost' = SUM(HechosOrders[Shipping Cost])
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: d003f6e6-f67d-485d-8529-fe2c74b73898
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Margen Neto % (con envìo)' = DIVIDE([Ganancias Totales]-[Shipping Cost],[Ventas Totales])
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 776999f0-f38a-4386-af4d-f3c84e34935c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Precio Medio' = DIVIDE (SUM(HechosOrders[Sales]),SUM(HechosOrders[Quantity]))
+		isHidden
+		displayFolder: Ventas
+		lineageTag: 212722ef-d4b4-4a64-af29-708c6cf3363e
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ticket Promedio (por pedido)' = DIVIDE([Ventas Totales],[Pedidos Totales])
+		isHidden
+		displayFolder: Ventas
+		lineageTag: 98fad5a9-27b3-468d-a66a-b8f84a22d092
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ventas por ShipDate' = CALCULATE([Ventas Totales],USERELATIONSHIP(Calendario[Date],HechosOrders[Ship Date]))
+		isHidden
+		displayFolder: Ventas
+		lineageTag: 537a2f9a-6f30-41ea-832e-136894e596ee
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dias a Envio (Prom)' = AVERAGEX(HechosOrders,DATEDIFF(HechosOrders[Order Date],HechosOrders[Ship Date],DAY))
+		isHidden
+		displayFolder: Pedidos
+		lineageTag: 552c1278-f983-463f-80b1-94e144d06717
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Perdida de Profit por Devoluciones' = ```
+			VAR DevIDs = VALUES(HechosReturns[Order ID]) 
+			RETURN CALCULATE ([Ganancias Totales],TREATAS(DevIDs,HechosOrders[Order ID]))
+			```
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 4dd72187-295e-41af-acee-eae213e9f766
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Clientes con Devoluciones' =
+			
+			VAR DevOrders =
+			    CALCULATETABLE(
+			        VALUES(DimOrder[Order ID]),
+			        FILTER(HechosReturns, HechosReturns[Devueltos] = "Yes")
+			    )
+			VAR DevCustomers =
+			    CALCULATETABLE(
+			        VALUES(HechosOrders[Customer ID]),
+			        TREATAS(DevOrders, HechosOrders[Order ID])
+			    )
+			RETURN
+			COUNTROWS(DevCustomers)
+		formatString: 0
+		displayFolder: Clientes
+		lineageTag: 89930988-7416-44b7-9ef2-8f7978e6bf9d
+
+	measure 'Ganancias LY' = CALCULATE([Ganancias Totales],SAMEPERIODLASTYEAR(Calendario[Date]))
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 509f17f7-5faf-448c-92f7-b7be0b589132
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Pedidos LY' = CALCULATE(DISTINCTCOUNT(HechosOrders[Order ID]),SAMEPERIODLASTYEAR(Calendario[Date]))
+		formatString: 0
+		isHidden
+		displayFolder: Pedidos
+		lineageTag: ba74aa86-0896-41b2-b375-683c42b40276
+
+		changedProperty = IsHidden
+
+	measure 'Margen LY' = CALCULATE([% Margen],SAMEPERIODLASTYEAR(Calendario[Date]))
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 228f4d9f-edbf-4f1e-9525-049703bb5dfb
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ventas Año Actual' = CALCULATE([Ventas Totales],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		isHidden
+		displayFolder: Ventas
+		lineageTag: 035ca623-1714-4d0b-91f6-69d7d08e28ab
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ganancias Año Anterior (Total)' = CALCULATE([Ganancias Totales],PREVIOUSYEAR(Calendario[Date]))
+		displayFolder: Rentabilidad
+		lineageTag: a3c0211a-9476-45f1-9dfe-c2f81f80d90e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ganancias Año Actual' = CALCULATE([Ganancias Totales],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		displayFolder: Rentabilidad
+		lineageTag: 302aac25-16ad-4e96-870a-141a5a3eefa5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Margen Año Actual' = CALCULATE([% Margen],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Rentabilidad
+		lineageTag: 1490a34d-82fc-4ac9-878c-95eb25d14f26
+
+	measure 'Margen Año Anterior (Total)' = CALCULATE([% Margen],prEVIOUSYEAR(Calendario[Date]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Rentabilidad
+		lineageTag: c5f1cc50-ec52-43e4-9eb4-2add3c8265a5
+
+	measure 'Ventas Hace 2 años' = CALCULATE([Ventas Totales],DATEADD('Calendario'[Date],-2,YEAR))
+		displayFolder: Ventas
+		lineageTag: 36d4914a-d305-4bf3-b101-b5c80cb30ccc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Pedidos Año Actual' = CALCULATE([Pedidos Totales],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		formatString: 0
+		displayFolder: Pedidos
+		lineageTag: 4e2f07d8-e4b1-4583-9fc5-d6bdc4a094ca
+
+	measure 'Pedidos Año Anterior (Total)' =
+			CALCULATE(
+						[Pedidos Totales], PREVIOUSYEAR(Calendario[Date]))
+		formatString: 0
+		displayFolder: Pedidos
+		lineageTag: 57995048-68b7-43a6-bb39-ad25d8f41db0
+
+	measure 'Descuento Promedio %' = ```
+			Average(HechosOrders[Discount]) 
+			```
+		displayFolder: Rentabilidad
+		lineageTag: 2d921608-5256-41e4-b0e5-cd92f2cc8848
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipping Cost Promedio por pedido' = DIVIDE([Shipping Cost Año Actual],[Cantidad Vendida],0)
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 45e52fcf-8bbc-433d-ad84-4a18e9209939
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipping Cost Año Actual' = CALCULATE([Shipping Cost],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 48d82981-63f9-4d49-b25a-e74f62ec40d0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipping Cost Año Anterior' =
+			CALCULATE(
+						[Shipping Cost], PREVIOUSYEAR(Calendario[Date]))
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 68234353-c37a-4337-8572-3c677a81b80d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Costo Total' = [Ventas Totales] - [Ganancias Totales]
+		displayFolder: Ventas
+		lineageTag: b3ed63e5-8f85-4df1-bfa0-2d852b5add3b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Costo Total Ultimo año' = CALCULATE([Costo Total],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		isHidden
+		displayFolder: Ventas
+		lineageTag: 4d75a98c-2126-4735-b1b1-120b26867fc2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Costo unitario' = DIVIDE([Costo Total Ultimo año],[Cantidad Vendida])
+		displayFolder: Ventas
+		lineageTag: 4425864a-4181-47cb-b817-8d5e398f7564
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cantidad Vendida' = CALCULATE([Cantidad Vendida total],FILTER(ALLSELECTED(Calendario),Calendario[Año]=MAX(Calendario[Año])))
+		formatString: 0
+		displayFolder: Ventas
+		lineageTag: 516bf812-54b5-46f4-acf2-f08d731baa18
+
+	measure 'Precio unitario' = DIVIDE([Ventas Año Actual],[Cantidad Vendida])
+		displayFolder: Ventas
+		lineageTag: 7be37611-4e9d-46d8-8bd3-3e536e821b4b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ganancias unitario año actual' = DIVIDE([Ganancias Año Actual],[Cantidad Vendida])
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: 8722f1b2-caa4-4e15-b700-b15ee05d3541
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shipping cost actual unitario' = DIVIDE([Shipping Cost Año Actual],[Cantidad Vendida])
+		isHidden
+		displayFolder: Rentabilidad
+		lineageTag: f9ff21e7-5f55-4ebe-9c67-343da2987ea5
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cantidad vendida año anterior (Total)' = CALCULATE([Cantidad Vendida total],prEVIOUSYEAR(Calendario[Date]))
+		formatString: 0
+		isHidden
+		displayFolder: Ventas
+		lineageTag: a0f1c649-8b94-4652-bc49-49a4d9e37ed5
+
+		changedProperty = IsHidden
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Columna1 = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Columna1", type text}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"Columna1"})
+				in
+				    #"Columnas quitadas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

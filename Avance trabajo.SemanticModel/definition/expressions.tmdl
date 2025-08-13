@@ -1,0 +1,29 @@
+expression Orders =
+		let
+		    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+		    Orders_Sheet = Origen{[Item="Orders",Kind="Sheet"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(Orders_Sheet, [PromoteAllScalars=true]),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Row ID", Int64.Type}, {"Order ID", type text}, {"Order Date", type date}, {"Ship Date", type date}, {"Ship Mode", type text}, {"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}, {"Postal Code", Int64.Type}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Market", type text}, {"Product ID", type text}, {"Category", type text}, {"Sub-Category", type text}, {"Product Name", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Discount", type number}, {"Profit", type number}, {"Shipping Cost", type number}, {"Order Priority", type text}})
+		in
+		    #"Tipo cambiado"
+	lineageTag: 7265a523-9548-420e-8ff0-b57ecdd47468
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression People =
+		let
+		    Origen = Excel.Workbook(File.Contents("C:\Users\natha\Documents\Global Superstore\global_superstore_2016.xlsx"), null, true),
+		    People_Sheet = Origen{[Item="People",Kind="Sheet"]}[Data],
+		    #"Tipo cambiado" = Table.TransformColumnTypes(People_Sheet,{{"Column1", type text}, {"Column2", type text}}),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Tipo cambiado", [PromoteAllScalars=true]),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Person", type text}, {"Region", type text}})
+		in
+		    #"Tipo cambiado1"
+	lineageTag: 1c2a5819-f49b-40ee-9eff-5465fd4e0848
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
