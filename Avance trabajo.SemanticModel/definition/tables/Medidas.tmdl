@@ -261,7 +261,7 @@ table Medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Shipping Cost Promedio por pedido' = DIVIDE([Shipping Cost Año Actual],[Cantidad Vendida],0)
+	measure 'Shipping Cost por cantidad año actual' = DIVIDE([Shipping Cost Año Actual],[Cantidad Vendida total],0)
 		isHidden
 		displayFolder: Rentabilidad
 		lineageTag: 45e52fcf-8bbc-433d-ad84-4a18e9209939
@@ -331,7 +331,7 @@ table Medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Shipping cost actual unitario' = DIVIDE([Shipping Cost Año Actual],[Cantidad Vendida])
+	measure 'Shipping cost actual unitario' = DIVIDE([Shipping Cost por cantidad año actual],[Cantidad Vendida])
 		isHidden
 		displayFolder: Rentabilidad
 		lineageTag: f9ff21e7-5f55-4ebe-9c67-343da2987ea5
